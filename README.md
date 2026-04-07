@@ -50,11 +50,28 @@ tokenized independently, then concatenated and chunked.
 - `gemma_eval.py` — interactive prompt loop that loads the base model and
   merges a saved LoRA adapter for generation.
 - `infer_loop.py` — inference loop utility.
-- `fetch_runpod_file.py` — helper for pulling files from a RunPod instance.
 - `gistfile1.txt` — training corpus.
 - `main.py` — small entry point.
 
 ## Running
+
+Training was done in a RunPod Instance **GPU: RTX 3090 24GB**;
+
+For google/gemma-4-E2B, the rough memory picture is:
+
+- weights in bf16: about 10.3 GB
+- gradients for full training: about another 10.3 GB
+- AdamW optimizer state: often about 2 x fp32 per parameter, roughly 41 GB
+- activations: extra on top, depending on sequence length and batch size
+
+So full fine-tuning would be far beyond 24 GB. LoRA avoids that by freezing the base 5.17B parameters and only training a small adapter, which in the run was about 50.7M trainable params, or 0.98% of the model.
+
+That is why it fit on a 3090 24GB:
+
+- base model stays loaded
+- only adapter params get gradients
+- only adapter params get optimizer state
+
 
 ```bash
 # Optional environment overrides
