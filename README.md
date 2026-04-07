@@ -125,28 +125,56 @@ at answering arbitrary questions about the story.
 Running the inference loop against a trained adapter:
 
 ```text
-PROMPT_MODE=plain TMPDIR=/dev/shm /workspace/venv/bin/python /root/infer_loop.py
+root@99658f6b192d:/# PROMPT_MODE=plain TMPDIR=/dev/shm /workspace/venv/bin/python /root/infer_loop.py
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights: 100%|█████████████████████| 2011/2011 [00:02<00:00, 948.82it/s]
+Interactive inference ready.
+Prompt mode: plain
+Type a prompt and press Enter.
+Type 'exit' or 'quit' to stop.
 
-Enter your text (Type 'E' on a new line to Enter or exit):
-who was Visgar?
-E
-Infer output ['who was Visgar? He was a captivating figure, a combination of
-the wisdom of an elder and the energy of a rejuvenated Jarkell. His name
-echoed through the halls of Pentiagon, and his stories had an allure that was
-hard to resist. But behind his tales hid a treacherous agenda. He sought to
-sow discord, to disrupt the balance that had been so recently threatened.
-And he had the power to do it. As he delved deeper, he uncovered the
-underbelly of Pentiagon. The secrets of his past and the alliances that had
-brought him here. And it was in this landscape that he found Draven. The
-bond between the two was immediate and intense. Draven, with his vision of
-a united world where science and magic coexisted, and with his charismatic
-if misguided leadership, had quickly won the hearts of the people of
-Pentiagon. And Visgar, with his tales of a vanished realm and the alliances
-that had led to its destruction, had also captured their imagination.']
-Enter your text (Type 'E' on a new line to Enter or exit):
+Prompt> Elorna, with her inherent curiosity
+
+Output:
+
+and dedication, pursued a degree in Biochemistry at the University of California, San Diego. Her passion for science led her to conduct research in renowned laboratories such as those of Dr. Kihara and Dr. Ouchi, where she gained valuable insights into the intricacies of cellular biology and the immune system.
+
+After completing her studies, Elorna embarked on a journey of discovery and adventure. She explored ancient ruins, ventured into uncharted territories, and delved into the secrets of ancient civilizations. Her insatiable thirst for knowledge led her to study martial arts, martial arts, and eventually, the enigmatic realm of magic
+
+Prompt> Elorna loved
+
+Output:
+
+everything about her life, except one thing. She never felt like she belonged anywhere. A recent promotion in the prestigious royal family brought her to the capital city of Pentiagon, where she found herself surrounded by people who seemed to know each other's secrets and histories. Worse, she had no sense of purpose or belonging.
+
+Determined to find a way to integrate herself into this new world, Elorna embarked on a quest to uncover the secrets of the royal family. Her journey led her to the heart of the palace, where she stumbled upon an ancient scroll. It spoke of a prophecy
+
+Prompt> "Time," Lysandra began,
+
+Output:
+
+"is a curious thing. It bends with purpose."
+
+I blinked, not understanding what she meant.
+
+"Think about it," Lysandra continued. "When you look at a flower, you see a beautiful flower. When you look at a clock, you see a machine that measures time. But when you look at a person, you see a collection of cells, tissues, and organs that have their own rhythms and purposes."
+
+I tried to wrap my mind around this concept. How could a clock, a flower, and a person all be seen as objects with their own unique properties and
+
+Prompt> The Trial of Draven
+
+Output:
+
+Wood, Part 3: The Final Verdict
+
+After months of investigation, the Royal Commission found no evidence linking Draven Wood to the murder of Dr. Anthon Sylvan. However, they did uncover a disturbing pattern of secrecy and manipulation within the royal court.
+
+The commission revealed that Draven Wood had been involved in a conspiracy to frame Dr. Sylvan for the crime. The evidence was overwhelming: a forged letter, a coerced confession, and a royal decree signed by Draven Wood himself.
+
+The royal court, outraged by the revelations, demanded justice. Draven Wood was arrested and
 ```
 
-Note how the model doesn't "answer" the question — it *continues* it as prose,
-picking up proper nouns (`Jarkell`, `Pentiagon`) from the training corpus and
-inventing new characters (`Visgar`, `Draven`) in the same narrative style.
-This is the expected behavior of raw next-token fine-tuning.
+Note how the model doesn't "answer" the question — it *continues* it as prose,picking up proper nouns (`Jarkell`, `Pentiagon`) from the training corpus. Many places it deviates wildly.This is the expected behavior of raw next-token fine-tuning.
+Limitations could be due to fewer number of epochs and smaller data set. Instruction Fine Tuning results are usually much better.
+
+Note: It took a lot of tries to get the Transformer version, Cuda Version  etc updated in the RunPod (using AI Agents itself tool a lot of tokens) to get the latest Gemma 4 training loop working. To even train a small model without LoRA you need about 40 GB or more of GPU RAM. So this path is not for the common use case. Much easier is to use RAG or just search with Agentic AI
